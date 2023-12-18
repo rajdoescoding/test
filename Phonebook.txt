@@ -1,0 +1,4 @@
+Name,Phone,Email
+John Doe,555-1234,john@example.com
+Jane Smith,555-5678,jane@example.com
+Bob Johnson,555-9876,bob@example.com

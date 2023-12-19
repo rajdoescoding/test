@@ -1,0 +1,118 @@
+// singly linked list
+
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+
+struct node {
+	int info;
+	struct node *link;
+}*start=NULL, *q;
+
+
+
+void createnode(int data); 
+void display(); 
+void reverse(); 
+
+int main() {
+	int i, ch, n, m, p;
+	//clrscr();
+	while (1) {
+		printf("\n1. Create a list\n");
+		printf("5. Reverse list\n");
+		printf("8. Display\n");
+		printf("9. Quit\n");
+		printf("Enter the choice: ");
+		scanf("%d", &ch);
+
+		switch (ch) {
+			case 1:
+				printf("How many nodes you want to enter: ");
+				scanf("%d", &n);
+				for (i = 0; i < n; i++) {
+					printf("Enter the data for %d node: ", i + 1);
+					scanf("%d", &m);
+					createnode(m);
+				}
+				break;
+
+
+
+			case 5:
+				reverse();
+				break;
+
+			case 8:
+				display();
+				break;
+
+			case 9:
+				exit(0);
+
+			default:
+				printf("\nWrong choice.\n");
+				break;
+		}
+	}
+}
+
+void reverse() {
+	struct node *p1, *p2, *p3;
+	if (start->link == NULL) {
+		printf("%d", start->link);
+		return;
+	} else {
+		p1 = start;
+		p2 = p1->link;
+		p3 = p2->link;
+		p1->link = NULL;
+		p2->link = p1;
+		while (p3 != NULL) {
+			p1 = p2;
+			p2 = p3;
+			p3 = p2->link;
+			p2->link = p1;
+		}
+		start = p2;
+	}
+	q=start;
+	while(q != NULL) {
+		printf("\n %d", q->info);
+		q=q->link;
+	}
+
+}
+
+
+void createnode(int data) {
+	struct node *tmp;
+	tmp = malloc(sizeof(struct node));
+	tmp->info = data;
+	tmp->link = NULL;
+	if (start == NULL) {
+		start = tmp;
+	} else {
+		q = start;
+		while (q->link != NULL) {
+			q = q->link;
+		}
+		q->link = tmp;
+	}
+}
+
+void display() {
+	q=start;
+	if(start == NULL) {
+		printf("List is empty.\n");
+		return;
+	} else {
+		printf("\n %d", q->info);
+		while (q->link != NULL) {
+			q = q->link;
+			printf("\n %d", q->info);
+		}
+		printf("\n");
+	}
+
+}

@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+//Node Structure
+struct Node{
+    int data;
+    struct Node *next;
+};
+
+//Linked List Functions
+void insertAtTop(struct Node **top_ref, int new_data){
+    struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = (*top_ref);
+    (*top_ref) = new_node;
+}
+
+void displayStack(struct Node *node){
+    if(node == NULL){
+        printf("Nodes are not available\n");
+        return;
+    }
+    while(node != NULL){
+        printf("%d ", node->data);
+        node = node->next;
+    }
+}
+
+int main(){
+    struct Node *top = NULL;
+    int choice, element;
+
+    do{
+        printf("\n\n****MAIN MENU****\n");
+        printf("1. Push Element\n");
+        printf("2. Display Stack\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice){
+            case 1:
+                printf("\nEnter element to be pushed: ");
+                scanf("%d", &element);
+                insertAtTop(&top, element);
+                break;
+            case 2:
+                displayStack(top);
+                break;
+            case 3:
+                break;
+            default:
+                printf("\n\nWrong choice, Please enter again\n");
+        }
+    }while(choice != 3);
+
+    return 0;
+}

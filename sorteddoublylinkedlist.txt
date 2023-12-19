@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for a doubly linked list
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+// Function prototypes
+void insertSorted(struct Node** head_ref, int new_data);
+void printList(struct Node* node);
+void insertNode(struct Node** head_ref);
+void printOriginalList(struct Node* node);
+
+int main() {
+    struct Node* head = NULL;
+
+    int choice;
+
+    while (1) {
+        printf("\n\n****** MENU ******\n");
+        printf("1. Insert Predefined Nodes\n");
+        printf("2. Insert Negative Element Dynamically\n");
+        printf("3. Display Original List\n");
+        printf("4. Display Sorted List\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: {
+                int n, m;
+                printf("How many nodes you want to enter: ");
+                scanf("%d", &n);
+                for (int i = 0; i < n; i++) {
+                    printf("Enter the data for %d node: ", i + 1);
+                    scanf("%d", &m);
+                    insertSorted(&head, m);
+                }
+                printf("\nOriginal Doubly Linked List: ");
+                printOriginalList(head);
+            }
+            break;
+
+            case 2:
+                // Insert negative element dynamically
+                insertNode(&head);
+                break;
+
+            case 3:
+                // Display original list
+                printf("\nOriginal Doubly Linked List: ");
+                printOriginalList(head);
+                break;
+
+            case 4:
+                // Display sorted list
+                printf("\nDoubly Linked List in sorted order: ");
+                printList(head);
+                break;
+
+            case 5:
+                // Free allocated memory before exiting
+                while (head != NULL) {
+                    struct Node* temp = head;
+                    head = head->next;
+                    free(temp);
+                }
+                exit(0);
+
+            default:
+                printf("\nEnter correct choice\n");
+        }
+    }
+
+    return 0;
+}
+
+// Function to insert a node into a doubly linked list in sorted order
+void insertSorted(struct Node** head_ref, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    new_node->next = NULL;
+    new_node->prev = NULL;
+
+    struct Node* current = *head_ref;
+
+    if (*head_ref == NULL) {
+        *head_ref = new_node;
+        return;
+    }
+
+    // Special case: insert at the beginning
+    if (new_data <= current->data) {
+        new_node->next = current;
+        current->prev = new_node;
+        *head_ref = new_node;
+        return;
+    }
+
+    // Traverse the list to find the correct position to insert the new node
+    while (current->next != NULL && current->next->data < new_data) {
+        current = current->next;
+    }
+
+    // Insert the new node in the middle or at the end
+    new_node->next = current->next;
+    if (current->next != NULL) {
+        current->next->prev = new_node;
+    }
+    new_node->prev = current;
+    current->next = new_node;
+}
+
+// Function to insert a node dynamically
+void insertNode(struct Node** head_ref) {
+    int data;
+    printf("\nEnter negative value to be inserted: ");
+    scanf("%d", &data);
+    insertSorted(head_ref, data);
+}
+
+// Function to print the doubly linked list
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+// Function to print the original doubly linked list
+void printOriginalList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}

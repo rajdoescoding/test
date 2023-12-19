@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+
+struct node {
+	int info;
+	struct node *link;
+}*last=NULL, *q;
+
+void createnode(int data);
+void display();
+void insertatbeg(int data);
+
+void main() {
+	int i, n, m, ch, p;
+	while (1) {
+		printf("\n1. Create a list\n");
+		printf("2. Insert node\n");
+		printf("3. Display\n");
+		printf("4. Quit\n");
+		
+		printf("Enter your choice: ");
+		scanf("%d", &ch);
+		switch (ch) {
+			case 1:
+				{
+					printf("-How many nodes you want to enter: ");
+					scanf("%d", &n);
+					for (i = 0; i < n; i++) {
+						printf("-Enter the data for %d node: ", i + 1);
+						scanf("%d", &m);
+						createnode(m);
+					}
+				}
+				break;
+				
+			case 2:
+				{
+					int ch1;
+					printf("1. Insert at beg\n");
+					
+					scanf("%d", &ch1);
+					switch(ch1) {
+						case 1:
+							{
+								printf("-Enter data: ");
+								scanf("%d", &m);
+								insertatbeg(m);
+							}
+							break;
+							
+						
+						default:
+							printf("\nWrong choice.\n");
+							break;
+					}
+				}
+				break;
+			
+				
+			case 3:
+				display();
+				break;
+				
+			case 4:
+				exit(0);
+				break;
+				
+			default:
+				printf("\nWrong choice.\n");
+				break;
+		}
+	}
+}
+
+void insertatbeg(int data) {
+	struct node *tmp;
+	tmp = malloc(sizeof(struct node));
+	tmp->info = data;
+	tmp->link = last->link;
+	last->link = tmp;
+}
+
+void display() {
+	q=last->link;
+	do {
+        printf("\n %d", q->info);
+        q = q->link;
+    } while (q != last->link);
+}
+
+void createnode(int data) {
+	struct node *tmp;
+	tmp = malloc(sizeof(struct node));
+	tmp->info = data;
+	if (last == NULL) {
+		last = tmp;
+		tmp->link = last;
+	}
+	tmp->link = last->link;
+	last->link = tmp;
+	last = tmp;
+}
